@@ -1,14 +1,24 @@
 {
   "name": "bidbay",
   "version": "1.0.0",
+  "type": "module",
   "description": "backend files for bidbay-an online auction system",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/index.js"
   },
   "keywords": [
     "javascript"
   ],
   "author": "VijayReddyLattupally",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.19.2",
+    "mongoose": "^8.3.2"
+  }
 }
