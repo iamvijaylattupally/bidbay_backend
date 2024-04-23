@@ -5,7 +5,6 @@ const productSchema = new mongoose.Schema(
         productname:{
             type:String,
             required:true,
-            unique:true,
             lowercase:true
         },
         productimage:{
@@ -30,6 +29,10 @@ const productSchema = new mongoose.Schema(
         sellerid:{
             type:mongoose.Schema.Types.ObjectId,
             ref:"User"
+        },
+        sellermail:{
+            type:String,
+            required:true
         },
         bids:[
             {

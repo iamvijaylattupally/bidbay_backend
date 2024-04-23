@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
+import {createToken} from "../utils/JWT.js";
 
 const registerUser = async(req,res)=>{
     try{
@@ -31,8 +32,9 @@ const registerUser = async(req,res)=>{
                             console.log("ERROR IN REGISTERING USER");
                             res.status(400).json({message:"ERROR IN REGISTERING USER"});
                         }else{
+                            const accessToken = createToken({ email: email ,password:hash});
                             console.log("user registered successfully");
-                            res.status(200).json({message:"user registered successfully",user:createdUser});
+                            res.status(200).json({message:"user registered successfully",user:createdUser,accessToken:accessToken});
                         }
                     }
                 }
@@ -48,6 +50,7 @@ const loginUser = async(req,res)=>{
     try{
         const {email,password} = req.body;
         if(!email || !password){
+            console.log(email , password);
             console.log("PLEASE FILL ALL THE FIELDS");
             res.status(400).json({message:"PLEASE FILL ALL THE FIELDS"});
         }else{
@@ -63,8 +66,9 @@ const loginUser = async(req,res)=>{
                     }else{
                         if(result){
                             const loggedUser = await User.findOne({_id:existingUser._id}).select("-password -refreshToken");
+                            const accessToken = createToken({ email: email ,password:existingUser.password});
                             console.log("USER LOGGED IN SUCCESSFULLY");
-                            res.status(200).json({message:"USER LOGGED IN SUCCESSFULLY",user:loggedUser});
+                            res.status(200).json({message:"USER LOGGED IN SUCCESSFULLY",user:loggedUser,accessToken:accessToken});
                         }else{
                             console.log("WRONG PASSWORD");
                             res.status(400).json({message:"WRONG PASSWORD"});
